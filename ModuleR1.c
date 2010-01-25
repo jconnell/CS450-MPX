@@ -7,7 +7,15 @@
  *
  */
 
+//Our Code
 #include "ModuleR1.h"
+
+//Provided Code
+#include "mpx_supt.h"
+
+//C Libraries
+#include <string.h>
+
 
 #ifndef DEBUG
 
@@ -31,6 +39,8 @@
 //Consult team first
 //Don't forget to init and cleanUp
 
+char userInputBuffer[MAX_INPUT_SIZE];
+
 
 //////////////////////////
 
@@ -48,6 +58,7 @@ int main(){
 
 void initGlobals(){
 	int sysInitResult = sys_init(MODULE_R1);
+	userInputBuffer = (char*)sys_alloc_mem(sizeof(char)*MAX_INPUT_SIZE);
 }
 
 void displayWelcomeMessage(){
@@ -100,6 +111,7 @@ void displayExitMessage(){
 
 void cleanUpGlobals(){
 	sys_exit();
+	sys_free_mem(userInputBuffer);
 }
 
 void parseInput(char *userInput, char *functionName, char *functionParameters, int *numParameters){
@@ -124,13 +136,12 @@ void callFunction(char *functionName, char *functionParameters, int *numParamete
 
 
 char *getUserInput(){
-	ALLOC_STR(buffer, MAX_INPUT_SIZE, "");
 	int bufSize = MAX_INPUT_SIZE;
-	int error = sys_req(READ, TERMINAL, buffer, &bufSize);
-	//!!!!!!!!!!!!!!!!!!
-	//!!!MEMORY LEAK!!!!
-	//!!!!!!!!!!!!!!!!!!
-	//(but it's late, and I'm tired)
+	int error = sys_req(READ, TERMINAL, userInputBuffer, &bufSize);
+	if (error) {
+		return NULL;
+	}
+	return userInputBuffer;
 }
 
 char *genericHelpText(){
