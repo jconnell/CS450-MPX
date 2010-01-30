@@ -117,7 +117,72 @@ void cleanUpGlobals(){
 }
 
 void parseInput(char *userInput, char *functionName, char *functionParameters, int *numParameters){
-	//lots of code
+
+	/*It's mostly done. *numParameters doesn't quite work. All the prints and so forth are just debugging code.
+		Also, I still need to add a check for parameters that are too long.*/
+
+	int curPos = 0;
+	int i = 0;
+	int paramCounter = 0;
+	int inputLength = strlen(userInput);
+	printf("%d\n", inputLength);
+	
+	//Handles leading spaces before command
+	while (*userInput == ' ') {
+			userInput++;
+	}
+	
+	//Loop to find functionName and store it in array
+	while ((*userInput != '\0') && (*userInput != ' ')) {
+		*functionName = *userInput;
+		printf("%c", *functionName);
+		functionName++;
+		userInput++;
+		curPos++;
+	}
+	
+	//Fills rest of functionName with spaces
+	for (i=curPos; curPos < MAX_PARAM_SIZE; curPos++) {
+		*functionName = ' ';
+		functionName++;
+	}
+	
+	curPos = 0;
+	
+	printf("\n");
+	
+	//Loop to find functionParameters and store them in array
+	while (*userInput != '\0') {
+		//Removes extra spaces in between params
+		while (*userInput == ' ') {
+			userInput++;
+		}
+		while ((*userInput != ' ') && (*userInput != '\0')) {
+			*functionParameters = *userInput;
+			printf("%c", *functionParameters);
+			userInput++;
+			functionParameters++;
+			curPos++;
+		}
+		curPos++;
+		
+		//Fills up array between params with spaces
+		for (i=curPos; curPos < MAX_PARAM_SIZE; curPos++) {
+			*functionParameters = ' ';
+			printf("%c", *functionParameters);
+			functionParameters++;
+		}
+		
+		curPos = 0;
+		
+		paramCounter++;
+	}
+	
+	printf("\n%d", curPos);
+	printf("\n%d\n", paramCounter);
+	*numParameters = paramCounter;
+	printf("%d", numParameters);
+	printf("\n");
 }
 
 
