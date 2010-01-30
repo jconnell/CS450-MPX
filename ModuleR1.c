@@ -169,7 +169,13 @@ void help(char *functionName){
 		}
 		else if(!strcmp("exit",functionParameters[0])){
 			strncpy(helpText, exitHelpText(), MAX_HELP_SIZE);
-		}//etc
+		}
+		else if(!strcmp("date",functionParameters[0])){
+			strncpy(helpText, dateHelpText(), MAX_HELP_SIZE);
+		}
+		else if(!strcmp("version",functionParameters[0])){
+			strncpy(helpText, versionHelpText(), MAX_HELP_SIZE);
+		}
 		else {
 			strncpy(helpText, genericHelpText(), MAX_HELP_SIZE);
 		}
@@ -183,40 +189,47 @@ void help(char *functionName){
 }
 
 char *dateHelpText(){
-	return "Some help text for date";
+	return "To view the current system date, simply enter 'date' as a command.  To change the system date, "
+	+ "enter 'date <DD/MM/YYYY>' as a command using a valid date (for example, 02/30/2010 is not a valid date, but "
+	+ "02/28/2010 is valid). The system will automatically check to see if the date you entered is valid "
+	+ "and you will be informed as to whether or not the system date was changed.\n";
 }
 
 
 void date(char *functionParameters, int *numParameters){
-	//
+	/*take a look at the dateHelpText to see what format I suggested...if you want to change how the user
+	enters a date to change the system date, please also change the help text!*/
 }
 
 
 char *versionHelpText(){
-	return "Some help text for version";
+	return "Enter 'version' as a command to display the current MPX version as well as the last modification date.\n";
 }
 
 void version(char *functionParameters, int *numParameters){
-	
+	/*once you decide what to output here besides version number and last modification date (authors, current date, etc.)
+	I'll change the versionHelpText accordingly.*/
 }
 
 
 char *dirHelpText(){
-	return "Some help text for dir";
+	return "Enter 'dir' as a command to display all the files present in your current directory, including executable .MPX files.\n";
 }
 
 void dir(char *functionParameters, int *numParameters){
-	
+	/*be sure to create fake files to test this function! :) */
 }
 
 
 char *exitHelpText(){
-	return "Some help text for exit";
+	return "Enter 'exit' as a command to terminate the current MPX session.  Upon execution, the system will prompt the user "
+	+ "to confirm the session termination.\n";
 }
 
 
 void exit(char *functionParameters, int *numParameters){
 	//do we need this function?
+	/*doesn't look like it*/
 }
 
 
