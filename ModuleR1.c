@@ -6,8 +6,9 @@
  *  Copyright 2010 Jared Crawford. All rights reserved.
  *
  */
-
- /*Anthony's GitHub test run code mod*/
+ 
+ 
+	/*NOTE: be sure to change the version, modification date, and modifier in version() every time you commit!*/
 
 //Our Code
 #include "ModuleR1.h"
@@ -28,6 +29,7 @@
 	#define MAX_INPUT_SIZE 80
 	#define MAX_PARAM_SIZE 20
 	#define MAX_HELP_SIZE 500
+	#define MAX_VER_SIZE 500
 	#define MAX_FILENAME_SIZE 10
 	#define MAX_PROMPT_SIZE 10
 
@@ -101,9 +103,6 @@ void commandHandler(){
 	sys_free_mem(userInput);
 	sys_free_mem(functionName);
 	sys_free_mem(functionParameters);
-	
-		
-		
 	
 }
 
@@ -191,12 +190,19 @@ int invalidParameter(char *functionName, char *functionParameters, int *numParam
 }
 
 void callFunction(char *functionName, char *functionParameters, int *numParameters){
+	//set up string for version text since all the version function does is print text
+	ALLOC_STR(verText, MAX_VER_SIZE, "");
+	
 	if (!strcmp(functionName, "help")) {
 		//execute help
-		help(functionParameters);
+		help(functionParameters, numParameters);
 	}
 	else if(!strcmp(functionName, "dir") {
 		
+	}
+	else if(!strcmp(functionName, "version") {
+		//call version
+		strncpy(verText, version(), MAX_VER_SIZE);
 	}
 
 }
@@ -218,18 +224,20 @@ char *genericHelpText(){
 	\tversion\n\
 	\tdate\n\
 	\n\
-	Type \"help <command>\" to learn more";
+	Type \"help <command>\" to learn more.\n";
 	
 }
 
 //if param != valid functionName, display genericHelpText
-void help(char *functionName){
+/*1/31 added functionParameters and numParameters to params passed to help function since they're used below
+also removed functionName param since it wouldn't be used here (I don't think)*/
+void help(char *functionParameters, int *numParameters){
 	//set up the string to store the help text
 	ALLOC_STR(helpText, MAX_HELP_SIZE, "");
 	
 	//make sure there is a param to check help against
 	if (numParameters > 0) {
-		if (!strcmp("dir",functionName[0])) {
+		if (!strcmp("dir",functionParameters[0])) {
 			strncpy(helpText, dirHelpText(), MAX_HELP_SIZE);
 		}
 		else if(!strcmp("exit",functionParameters[0])){
@@ -271,10 +279,25 @@ char *versionHelpText(){
 	return "Enter 'version' as a command to display the current MPX version as well as the last modification date.\n";
 }
 
-void version(char *functionParameters, int *numParameters){
-	/*once you decide what to output here besides version number and last modification date (authors, current date, etc.)
-	I'll change the versionHelpText accordingly.*/
+char *version(){
+	/*be sure to change the version, modification date, and modifier every time you commit!*/
+	return "CS450 MPX Operating System Project.\n\
+			\tCurrent Version: 1.5\n\
+			\n\
+			\tGroup 6:\n\
+			\tChris Blosser\n\
+			\tJon Connell\n\
+			\tJared Crawford\n\
+			\tAnthony Palma\n\
+			\n\
+			\tLast Modification Date: 1/31/10 by Anthony\n";
 }
+
+// void version(char *functionParameters, int *numParameters){
+	// /*once you decide what to output here besides version number and last modification date (authors, current date, etc.)
+	// I'll change the versionHelpText accordingly.*/
+	
+// }
 
 
 char *dirHelpText(){
