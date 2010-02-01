@@ -119,18 +119,19 @@ void cleanUpGlobals(){
 	sys_free_mem(userInputBuffer);
 }
 
-void parseInput(char *userInput, char *functionName, char *functionParameters, int *numParameters){
-
-	//It's mostly done. *numParameters doesn't quite work. All the prints and so forth are just debugging code.
-	//Also, I still need to add a check for parameters that are too long.
-
+int parseInput(char *userInput, char *functionName, char *functionParameters, int *numParameters){
+	
+	//Still can't figure out how to get the number of parameters into memory, but if someone figures it out, it'll take like two lines and I'll put it in.
+	//Added error checking for too many params and commands/params that are too long
+	//I changed the function to return integers (0 for success, 1 for error). I was too afraid to start playing with other people's code,
+	//this will need to be changed when you use parseInput.
+	//Other than writing numParameters to memory, this function is done.
+	
 	int curPos = 0;
 	int i = 0;
 	int paramCounter = 0;
-	int inputLength = strlen(userInput);
-	printf("%d\n", inputLength);
+	int maxParamsAllowed = (MAX_INPUT_SIZE/MAX_PARAM_SIZE) - 1;	//Determines how many params are allowed AS LONG AS THE MAX COMMAND AND MAX PARAM SIZES ARE THE SAME
 	
-	//Handles leading spaces before command
 	while (*userInput == ' ') {
 			userInput++;
 	}
@@ -138,10 +139,13 @@ void parseInput(char *userInput, char *functionName, char *functionParameters, i
 	//Loop to find functionName and store it in array
 	while ((*userInput != '\0') && (*userInput != ' ')) {
 		*functionName = *userInput;
-		printf("%c", *functionName);
 		functionName++;
 		userInput++;
 		curPos++;
+		if ((curPos >= MAX_PARAM_SIZE) && (*userInput != ' ') && (*userInput != '\0')) {	//Checks to make sure that commands are less than MAX_PARAM_SIZE
+			printf("\nERROR: Commands must be no more than %d characters.\n", MAX_PARAM_SIZE);
+			return 1;
+		}
 	}
 	
 	//Fills rest of functionName with spaces
@@ -152,40 +156,53 @@ void parseInput(char *userInput, char *functionName, char *functionParameters, i
 	
 	curPos = 0;
 	
-	printf("\n");
+	//Removes spaces between command and first parameter
+	while (*userInput == ' ') {
+			userInput++;
+	}
 	
 	//Loop to find functionParameters and store them in array
 	while (*userInput != '\0') {
-		//Removes extra spaces in between params
-		while (*userInput == ' ') {
-			userInput++;
+		
+		if (paramCounter >= maxParamsAllowed) {
+			printf("\nERROR: There can be no more than %d parameters.", maxParamsAllowed);
+			return 1;
 		}
-		while ((*userInput != ' ') && (*userInput != '\0')) {
+		
+		while ((*userInput != '\0') && (*userInput != ' ')) {
 			*functionParameters = *userInput;
-			printf("%c", *functionParameters);
 			userInput++;
 			functionParameters++;
 			curPos++;
+			if ((curPos >= MAX_PARAM_SIZE) && (*userInput != ' ') && (*userInput != '\0')) {	//Checks to make sure that params are less than MAX_PARAM_SIZE
+				printf("\nERROR: Parameters must be no more than %d characters.\n", MAX_PARAM_SIZE);
+				return 1;
+			}
+			
 		}
-		curPos++;
 		
-		//Fills up array between params with spaces
+		
 		for (i=curPos; curPos < MAX_PARAM_SIZE; curPos++) {
-			*functionParameters = ' ';
-			printf("%c", *functionParameters);
-			functionParameters++;
+				*functionParameters = ' ';
+				functionParameters++;
 		}
 		
 		curPos = 0;
-		
 		paramCounter++;
+		
+		//Removes spaces between parameters
+		while (*userInput == ' ') {
+			userInput++;
+		}
+		
 	}
 	
-	printf("\n%d", curPos);
-	printf("\n%d\n", paramCounter);
-	*numParameters = paramCounter;
-	printf("%d", numParameters);
-	printf("\n");
+	printf("%d\n", paramCounter);	//FOR DEBUGGING PURPOSES
+	//*numParameters = paramCounter;
+	//printf("%d", numParameters);
+	//printf("\n");
+	return 0;
+	
 }
 
 

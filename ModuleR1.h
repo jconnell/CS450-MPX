@@ -22,7 +22,8 @@ void displayExitMessage();
 void cleanUpGlobals();
 
 //pass last three function parameters as reference
-void parseInput(char *userInput, char *functionName, char *functionParameters, int *numParameters);
+//returns 0 if successful, 1 if an error is encountered
+int parseInput(char *userInput, char *functionName, char *functionParameters, int *numParameters);
 
 //returns 0 if function and parameters are valid, else returns index of invalid parameter
 //return 1 is function name, params are numbered 2 to numParameters+1
