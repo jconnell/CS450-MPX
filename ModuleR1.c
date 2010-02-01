@@ -8,7 +8,10 @@
  */
  
  
-	/*NOTE: be sure to change the version, modification date, and modifier in version() every time you commit!*/
+	//NOTE: be sure to change the version, modification date, and modifier in version() every time you commit!
+	//ALSO: my friend who took this last semester said a major problem they found was that
+	//Turbo C required them to define their variables before they do anything else in each function,
+	//so make sure you define all variables before doing anything else (including allocating strings)
 
 //Our Code
 #include "ModuleR1.h"
@@ -71,15 +74,16 @@ void displayWelcomeMessage(){
 
 
 void commandHandler(){
-	ALLOC_STR(prompt, MAX_PROMPT_SIZE, "/");
+	int numParameters;
+	int invalidParamNum;
 	int exitFlag = 0;
+	ALLOC_STR(prompt, MAX_PROMPT_SIZE, "/");
 	
 	//reuse these params in the do loop
 	ALLOC_STR(userInput, MAX_INPUT_SIZE, "");
 	ALLOC_STR(functionName, MAX_PARAM_SIZE, "");
 	ALLOC_STR(functionParameters, MAX_INPUT_SIZE, "");
-	int numParameters;
-	int invalidParamNum;
+	
 	
 	
 	do {
@@ -117,8 +121,8 @@ void cleanUpGlobals(){
 
 void parseInput(char *userInput, char *functionName, char *functionParameters, int *numParameters){
 
-	/*It's mostly done. *numParameters doesn't quite work. All the prints and so forth are just debugging code.
-		Also, I still need to add a check for parameters that are too long.*/
+	//It's mostly done. *numParameters doesn't quite work. All the prints and so forth are just debugging code.
+	//Also, I still need to add a check for parameters that are too long.
 
 	int curPos = 0;
 	int i = 0;
@@ -229,8 +233,8 @@ char *genericHelpText(){
 }
 
 //if param != valid functionName, display genericHelpText
-/*1/31 added functionParameters and numParameters to params passed to help function since they're used below
-also removed functionName param since it wouldn't be used here (I don't think)*/
+//1/31 added functionParameters and numParameters to params passed to help function since they're used below
+//also removed functionName param since it wouldn't be used here (I don't think)
 void help(char *functionParameters, int *numParameters){
 	//set up the string to store the help text
 	ALLOC_STR(helpText, MAX_HELP_SIZE, "");
@@ -270,8 +274,8 @@ char *dateHelpText(){
 
 
 void date(char *functionParameters, int *numParameters){
-	/*take a look at the dateHelpText to see what format I suggested...if you want to change how the user
-	enters a date to change the system date, please also change the help text!*/
+	//take a look at the dateHelpText to see what format I suggested...if you want to change how the user
+	//enters a date to change the system date, please also change the help text!
 }
 
 
@@ -283,7 +287,7 @@ char *versionHelpText(){
 }
 
 char *version(){
-	/*be sure to change the version, modification date, and modifier every time you commit!*/
+	//be sure to change the version, modification date, and modifier every time you commit!
 	return "CS450 MPX Operating System Project\n\
 			\tCurrent Version: 1.5\n\
 			\n\
@@ -301,7 +305,7 @@ char *dirHelpText(){
 }
 
 void dir(char *functionParameters, int *numParameters){
-	/*be sure to create fake files to test this function! :) */
+	//be sure to create fake files to test this function! :)
 }
 
 
@@ -311,15 +315,15 @@ char *exitHelpText(){
 }
 
 
-void exit(char *functionParameters, int *numParameters){
+//void exit(char *functionParameters, int *numParameters){
 	//do we need this function?
-	/*doesn't look like it*/
-}
+	//doesn't look like it
+//}
 
 
 int confirmExit(){
-	printf("Are you sure you want to exit? (y/n) ");
 	ALLOC_STR(confirmation, MAX_INPUT_SIZE, getUserInput());
+	printf("Are you sure you want to exit? (y/n) ");
 	if (!strcmp("y",confirmation)) {
 		return 1;
 	}
