@@ -276,12 +276,15 @@ void date(char *functionParameters, int *numParameters){
 
 
 char *versionHelpText(){
-	return "Enter 'version' as a command to display the current MPX version as well as the last modification date.\n";
+	return "Enter 'version' as a command to display the following content: \n\
+		\tCurrent MPX version\n\
+		\tGroup Members\n\
+		\tLast modification date.\n";
 }
 
 char *version(){
 	/*be sure to change the version, modification date, and modifier every time you commit!*/
-	return "CS450 MPX Operating System Project.\n\
+	return "CS450 MPX Operating System Project\n\
 			\tCurrent Version: 1.5\n\
 			\n\
 			\tGroup 6:\n\
@@ -292,13 +295,6 @@ char *version(){
 			\n\
 			\tLast Modification Date: 1/31/10 by Anthony\n";
 }
-
-// void version(char *functionParameters, int *numParameters){
-	// /*once you decide what to output here besides version number and last modification date (authors, current date, etc.)
-	// I'll change the versionHelpText accordingly.*/
-	
-// }
-
 
 char *dirHelpText(){
 	return "Enter 'dir' as a command to display all the files present in your current directory, including executable .MPX files.\n";
